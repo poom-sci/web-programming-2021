@@ -16,7 +16,7 @@
               %td
                 = post.msg
               %td
-                = post.created_at
+                = post.created_at.strftime("%b %d, 20%y %k:%M:%S")
     %div{:class=>'col col-sm-2'}
       = link_to 'create your post', "/create_post?user_id="+@user.id.to_s,class:"btn btn-outline-primary mt-2"
 

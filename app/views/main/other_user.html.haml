@@ -6,15 +6,15 @@
         %thead
           %tr{:class=>'fw-bolder'}
             %th Name
-            / %th Message
+            %th Post Counts
             / %th create_at
         %tbody
           - @not_follow_users_list.each.with_index() do |user,index|
             %tr
               %td
                 = link_to user.name, "/profile/"+user.name,class:""
-              / %td
-              /   = post.msg
+              %td
+                = user.posts.length()
               / %td
               /   = post.created_at
     %div{:class=>'col col-sm-2'}

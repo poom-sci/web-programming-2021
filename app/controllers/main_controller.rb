@@ -117,8 +117,6 @@ class MainController < ApplicationController
       @isFollowed=Follow.find_by(follower_id:@user.id,followee_id:@profile_user.id)
 
     end
-
-    
   end
 
   def follow
@@ -135,11 +133,14 @@ class MainController < ApplicationController
 
       if(params[:commit]=='Follow')
         Follow.create(follower:@user,followee:@to_action_user).save
+        respond_to do |format|
+        format.html { redirect_to '/feed?user_id='+@user.id.to_s, notice: "Follow "+@to_action_user.name+" successfully" }
+      end
       elsif(params[:commit]=='Unfollow')
         Follow.find_by(follower:@user,followee:@to_action_user).destroy
-      end
-      respond_to do |format|
-        format.html { redirect_to '/feed?user_id='+@user.id.to_s, notice: "Follow "+@to_action_user.name+" successfully" }
+          respond_to do |format|
+          format.html { redirect_to '/feed?user_id='+@user.id.to_s, notice: "Unfollow "+@to_action_user.name+" successfully" }
+        end
       end
     end
   end
