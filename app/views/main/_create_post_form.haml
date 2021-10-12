@@ -1,0 +1,13 @@
+%h1 Create Post Form
+
+-# frozen_string_literal: true
+= simple_form_for(@post, as: :post,method: :post,url:'/create_new_post') do |f|
+  = f.error_notification
+  = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
+
+  .form-inputs
+    = f.association :user,:as => :hidden
+    = f.input :msg, required:true
+
+  .form-actions
+    = f.button :submit,class:'btn btn-outline-dark mt-2 mb-2'

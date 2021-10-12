@@ -1,0 +1,22 @@
+%h3
+  = "Other Users"
+  %div{:class=>'row'}
+    %div{:class=>'row col-sm-10'}
+      %table{:class=>'table table-striped table-hover'}
+        %thead
+          %tr{:class=>'fw-bolder'}
+            %th Name
+            / %th Message
+            / %th create_at
+        %tbody
+          - @not_follow_users_list.each.with_index() do |user,index|
+            %tr
+              %td
+                = link_to user.name, "/profile/"+user.name,class:""
+              / %td
+              /   = post.msg
+              / %td
+              /   = post.created_at
+    %div{:class=>'col col-sm-2'}
+      = link_to 'create your post', "/create_post?user_id="+@user.id.to_s,class:"btn btn-outline-primary mt-2"
+

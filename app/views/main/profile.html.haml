@@ -1,0 +1,36 @@
+%h1 Profile: #{ @profile_user.name}
+%div{:class=>'row'}
+  %div{:class=>'row col-sm-10'}
+    %table{:class=>'table table-striped table-hover'}
+      %thead
+        %tr{:class=>'fw-bolder'}
+          -if(@user!=@profile_user)
+            %th Name
+          %th Message
+          %th create_at
+          -if(@user==@profile_user)
+            %th destroy
+      %tbody
+        - @profile_user.posts.sort_by {|obj| obj.created_at}.reverse!.each.with_index() do |post,index|
+          %tr
+            -if(@user!=@profile_user)
+              %td
+                = post.user.name
+            %td
+              = post.msg
+            %td
+              = post.created_at
+            -if(@user==@profile_user)
+              %td
+                = link_to 'Destroy', "/destroy_post?id="+post.id.to_s,  data: { confirm: 'Are you sure?' },class:"btn btn-outline-danger mt-2"
+  %div{:class=>'col col-sm-2'}
+    = simple_form_for(@user, method: :post, url: '/follow?user_id='+@profile_user.id.to_s) do |f|
+      .form-inputs
+        = f.input :id,:as => :hidden
+      .form-actions
+        -if(@profile_user!=@user && @isFollowed)
+          = f.button :submit,'Unfollow',class:'btn btn-outline-primary mt-2',action:'Unfollow'
+        -elsif(@profile_user!=@user && !@isFollowed)
+          = f.button :submit,'Follow',class:'btn btn-outline-primary mt-2',action:'Follow'
+    - if(@user==@profile_user)
+      = link_to 'create your post', "/create_post?user_id="+@user.id.to_s,class:"btn btn-outline-primary mt-2"
