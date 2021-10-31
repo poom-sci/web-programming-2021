@@ -2,16 +2,8 @@
 
 one:
   user: one
-  msg: MyString
+  post: one
 
 two:
   user: two
-  msg: MyString
-
-post1:
-  msg: eiei
-  user: testlikeuser1
-
-post2:
-  msg: eiei
-  user: testlikeuser2
+  post: two

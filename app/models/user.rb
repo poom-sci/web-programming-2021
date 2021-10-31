@@ -9,4 +9,14 @@ class User < ApplicationRecord
 
 	has_many :follower, class_name: 'Follow', foreign_key: 'follower_id'
   	has_many :followee, class_name: 'Follow', foreign_key: 'followee_id'
+  	has_many :likes, dependent: :destroy
+
+
+  	def get_all_follwee_posts
+	    return Post.where(:user_id => Follow.where(follower_id:id).pluck('followee_id')).order("created_at DESC")
+  	end
+
+  	def get_not_follwees
+	    return User.where.not(:id => Follow.where(follower_id:id).pluck('followee_id').push(id)).order("created_at DESC")
+  	end
 end

@@ -84,16 +84,7 @@ class MainController < ApplicationController
 
 
   def feed
-    # @feed_posts=[]
-    # @user.follower.each { |user|
-    #   user.followee.posts.each { |post|
-    #     @feed_posts.push(*post)
-    #   }.flatten!
-    # }
-    @arr=@user.follower.map { |follow|
-      follow.followee_id
-    }
-    @feed_posts=Post.where(:user_id => @arr).sort_by {|obj| obj.created_at}.reverse!
+    @feed_posts=@user.get_all_follwee_posts
   end
 
   def other_user
@@ -101,7 +92,7 @@ class MainController < ApplicationController
       follow.followee_id
     }
     @arr.push(@user.id)
-    @not_follow_users_list=User.where.not(:id => @arr).sort_by {|obj| obj.created_at}.reverse!
+    @not_follow_users_list=@user.get_not_follwees
   end
 
 
@@ -158,7 +149,35 @@ class MainController < ApplicationController
         format.json { head :no_content }
       end
     end
-    
+  end
+
+  def already_liked?
+    Like.where(user_id: current_user.id, post_id:params[:post_id]).exists?
+  end
+
+  def like
+    @user=User.find(params[:user][:id])
+    @post=Post.find(params[:post_id])
+
+    if(session[:user_id].to_s!=params[:user][:id].to_s)
+      respond_to do |format|
+        session[:user_id] = nil
+        format.html { redirect_to '/main', alert: "User is invalid" }
+      end
+    else
+
+      if(params[:commit]=='Like')
+        Like.create(user:@user,post:@post).save
+        respond_to do |format|
+        format.html { redirect_to '/feed?user_id='+@user.id.to_s, notice: "Like "+@post.msg+" successfully" }
+      end
+      elsif(params[:commit]=='Unlike')
+        Like.find_by(user:@user,post:@post).destroy
+          respond_to do |format|
+          format.html { redirect_to '/feed?user_id='+@user.id.to_s, notice: "Unlike "+@post.msg+" successfully" }
+        end
+      end
+    end
   end
 
 end

@@ -1,0 +1,17 @@
+.card{:class => "col-sm-10 mb-3 mt-3"}
+  .card-body
+    = link_to post.user.name, "/profile/"+post.user.name,class:""
+    %p.card-text Message: #{ post.msg}
+    %div{:class=>'row'}
+      %p.card-text Posted at: #{post.created_at.strftime("%b %d, 20%y %k:%M:%S")}
+      = simple_form_for(@user, method: :post, url: '/like/'+post.id.to_s) do |f|
+        .form-inputs
+          = f.input :id,:as => :hidden
+        .form-actions
+          -if(post.likes.find_by(user_id:@user.id))
+            = f.button :submit,'Unlike',action:'Unlike',class:"btn btn-dark mt-2"            
+          -else
+            = f.button :submit,'Like',action:'Like',class:"btn btn-danger sx-2 mt-2"
+    %button{class:"btn btn-primary mt-2 showmodal","post_id"=>post.id} #{post.likes.length()} likes
+    %div{class:"post_data"+post.id.to_s,"data"=>post.get_all_liked_user_name.join(",")}
+  

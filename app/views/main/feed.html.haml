@@ -1,22 +1,42 @@
 %h3
   = "Feed"
   %div{:class=>'row'}
-    %div{:class=>'row col-sm-10'}
-      %table{:class=>'table table-striped table-hover'}
-        %thead
-          %tr{:class=>'fw-bolder'}
-            %th Name
-            %th Message
-            %th create_at
-        %tbody
-          - @feed_posts.each.with_index() do |post,index|
-            %tr
-              %td
-                = link_to post.user.name, "/profile/"+post.user.name,class:""
-              %td
-                = post.msg
-              %td
-                = post.created_at.strftime("%b %d, 20%y %k:%M:%S")
+    %div{:class=>'col col-sm-10'}
+      - @feed_posts.each.with_index() do |post,index|
+        = render 'card', post:post
+
+              
     %div{:class=>'col col-sm-2'}
       = link_to 'create your post', "/create_post?user_id="+@user.id.to_s,class:"btn btn-outline-primary mt-2"
 
+
+#myModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "exampleModalLabel", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog{:role => "document"}
+    .modal-content
+      .modal-header
+        %h5#exampleModalLabel.modal-title Like Detail
+  
+      .modal-body
+        \...
+      .modal-footer
+        %button.btn.btn-secondary.modalCloseButton{"data-dismiss" => "modal", :type => "button"} Close
+
+:javascript
+  $( document ).ready(function() {
+    $('.showmodal').click(function(){
+
+      $('#myModal').modal('show')
+      const post_id=$(this).attr('post_id')
+      const username_list=$('.post_data'+post_id).attr('data').split(',')
+      $(".modal-body").html(username_list.map((name,index)=>{
+        return `<div><a href="/profile/${name}">${name}</a></div>`
+      }));
+    });
+
+    $('.modalCloseButton').click(function(){
+      $('#myModal').modal('hide')
+    });
+  });
+  
+
+ 

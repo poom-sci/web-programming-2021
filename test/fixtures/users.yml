@@ -9,3 +9,23 @@ two:
   email: MyString
   name: MyString
   password_digest: MyString
+
+u1:
+  name: aaaa
+  email: a
+  password_digest: <%= BCrypt::Password.create('a') %>
+
+u2:
+  name: bbbb
+  email: b
+  password_digest: <%= BCrypt::Password.create('b') %>
+
+testlikeuser1:
+  name: testlike1
+  email: testlike1@mail.com
+  password_digest: <%= BCrypt::Password.create('testlikeone') %>
+
+testlikeuser2:
+  name: testlike2
+  email: testlike2@mail.com
+  password_digest: <%= BCrypt::Password.create('testliketwo') %>

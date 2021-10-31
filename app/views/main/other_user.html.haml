@@ -15,8 +15,6 @@
                 = link_to user.name, "/profile/"+user.name,class:""
               %td
                 = user.posts.length()
-              / %td
-              /   = post.created_at
     %div{:class=>'col col-sm-2'}
       = link_to 'create your post', "/create_post?user_id="+@user.id.to_s,class:"btn btn-outline-primary mt-2"
 
