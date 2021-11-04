@@ -2,9 +2,9 @@
   = "Other Users"
   %div{:class=>'row'}
     %div{:class=>'row col-sm-10'}
-      %table{:class=>'table table-striped table-hover'}
+      %table{:class=>'display',:id=>'other-user-table',:style=>'width:100%'}
         %thead
-          %tr{:class=>'fw-bolder'}
+          %tr{:class=>''}
             %th Name
             %th Post Counts
             / %th create_at
@@ -18,3 +18,16 @@
     %div{:class=>'col col-sm-2'}
       = link_to 'create your post', "/create_post?user_id="+@user.id.to_s,class:"btn btn-outline-primary mt-2"
 
+
+:javascript 
+  $(document).ready(function() {
+    $('#other-user-table').DataTable( {
+        columnDefs: [ {
+            targets: [ 0 ],
+            orderData: [ 0, 1 ]
+        }, {
+            targets: [ 1 ],
+            orderData: [ 1, 0 ]
+        } ]
+    } );
+  } );

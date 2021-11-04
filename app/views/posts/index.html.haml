@@ -1,6 +1,6 @@
 %h1 Listing posts
 
-%table
+%table{:class=>'display',:id=>'posts-index-table',:style=>'width:100%'}
   %thead
     %tr
       %th User
@@ -21,3 +21,16 @@
 %br
 
 = link_to 'New Post', new_post_path
+
+:javascript 
+  $(document).ready(function() {
+    $('#posts-index-table').DataTable( {
+        columnDefs: [ {
+            targets: [ 0 ],
+            orderData: [ 0, 1 ]
+        }, {
+            targets: [ 1 ],
+            orderData: [ 1, 0 ]
+        } ]
+    } );
+  } );

@@ -9,9 +9,13 @@
           = f.input :id,:as => :hidden
         .form-actions
           -if(post.likes.find_by(user_id:@user.id))
-            = f.button :submit,'Unlike',action:'Unlike',class:"btn btn-dark mt-2"            
+            = f.button :submit,'Unlike',action:'Unlike',class:"btn btn-dark mt-2"          
+
           -else
             = f.button :submit,'Like',action:'Like',class:"btn btn-danger sx-2 mt-2"
-    %button{class:"btn btn-primary mt-2 showmodal","post_id"=>post.id} #{post.likes.length()} likes
+    -if(post.likes.length()==0)
+      %button{class:"btn btn-primary mt-2 showmodal disabled","post_id"=>post.id} #{post.likes.length()} likes
+    -else
+      %button{class:"btn btn-primary mt-2 showmodal","post_id"=>post.id} #{post.likes.length()} likes
     %div{class:"post_data"+post.id.to_s,"data"=>post.get_all_liked_user_name.join(",")}
   

@@ -4,6 +4,7 @@ class Post < ApplicationRecord
   has_many :likes
 
   def get_all_liked_user_name
-      return User.where(:id => self.likes.pluck('user_id')).pluck('name')
+      # return User.where(:id => self.likes.pluck('user_id')).pluck('name')
+      return self.likes.joins(:user).pluck('name')
   end
 end
