@@ -1,6 +1,6 @@
 %h1 Listing users
 
-%table{:class=>'display',:id=>'example',:style=>'width:100%'}
+%table{:class=>'display',:id=>'users-index-table',:style=>'width:100%'}
   %thead
     %tr
       %th Email
@@ -23,3 +23,16 @@
 %br
 
 = link_to 'New User', new_user_path
+
+:javascript 
+  $(document).ready(function() {
+    $('#users-index-table').DataTable( {
+        columnDefs: [ {
+            targets: [ 0 ],
+            orderData: [ 0, 1 ]
+        }, {
+            targets: [ 1 ],
+            orderData: [ 1, 0 ]
+        } ]
+    } );
+  } );
